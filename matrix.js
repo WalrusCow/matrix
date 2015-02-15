@@ -58,12 +58,12 @@ define([], function() {
 
       tmp = this.rows[n];
       this.rows[n] = this.rows[newRow];
-      this.rows[newRow] = tmp'
+      this.rows[newRow] = tmp;
 
       n = newRow;
     }
 
-    multiplyRow(this.rows[n], 1 / this.rows[n][n]);
+    this.multiplyRow(this.rows[n], 1 / this.rows[n][n]);
     // Exact
     this.rows[n][n] = 1;
 
@@ -91,6 +91,33 @@ define([], function() {
     for (var i = 0; i < dest.length; ++i) {
       dest[i] += mult * source[i];
     }
+  };
+
+  Matrix.prototype.toString = function() {
+    var strs = [''];
+
+    // Collect the maximum length of a number
+    var maxLen = 0;
+    for (var i = 0; i < this.rows.length; ++i) {
+      for (var j = 0; j < this.rows[i].length; ++j) {
+        maxLen = Math.max(maxLen, this.rows[i][j].toString().length);
+      }
+    }
+
+    for (var i = 0; i < this.rows.length; ++i) {
+      var numStrs = [];
+      for (var j = 0; j < this.rows[i].length; ++j) {
+        // Add to the string
+        var n = this.rows[i][j].toString();
+        var s = '';
+        // Left pad
+        for (var k = n.length; k < maxLen; ++k) s += ' ';
+        numStrs.push(s + n);
+      }
+      strs.push('| ' + numStrs.join('  ') + ' |');
+    }
+
+    return strs.join('\n');
   };
 
   return Matrix;
