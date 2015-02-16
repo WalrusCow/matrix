@@ -5,13 +5,10 @@ requirejs.config({
 });
 
 requirejs(['matrix'], function(Matrix) {
-  debugger;
   var matrix = new Matrix(2);
-  matrix.rows[0] = [100, 0];
-  matrix.rows[1] = [0, 1];
-  console.log(matrix.toString());
-  console.log(matrix);
+  matrix.rows[0] = [1, 2];
+  matrix.rows[1] = [2, 1];
+  //console.log(matrix.toString());
   matrix.solve();
   console.log(matrix.toString());
-  console.log(matrix);
 });

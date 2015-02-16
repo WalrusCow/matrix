@@ -67,11 +67,13 @@ define([], function() {
     // Exact
     this.rows[n][n] = 1;
 
+    // Create zeros in lower rows
     for (var i = n + 1; i < this.rows.length; ++i) {
+      // Already have a zero here
       if (this.rows[i][n] === 0) continue;
-      var mult = this.rows[i][n] / this.rows[n][n];
+      var mult = this.rows[i][n];// / this.rows[n][n];
       // Subtract to create a 0
-      addToRow(this.rows[i], this.rows[n], -mult);
+      this.addToRow(this.rows[i], this.rows[n], -mult);
       // Exact
       this.rows[i][n] = 0;
     }
@@ -82,7 +84,7 @@ define([], function() {
 
   Matrix.prototype.multiplyRow = function(row, mult) {
     for (var i = 0 ; i < row.length; ++i) {
-      row[i] *= mult;
+      if (row[i]) row[i] *= mult;
     }
   };
 
@@ -96,11 +98,16 @@ define([], function() {
   Matrix.prototype.toString = function() {
     var strs = [''];
 
+    function toString(n) {
+      // Two decimal places (or none for whole numbers)
+      return (n % 1 === 0) ? n : n.toFixed(2);
+    }
+
     // Collect the maximum length of a number
     var maxLen = 0;
     for (var i = 0; i < this.rows.length; ++i) {
       for (var j = 0; j < this.rows[i].length; ++j) {
-        maxLen = Math.max(maxLen, this.rows[i][j].toString().length);
+        maxLen = Math.max(maxLen, toString(this.rows[i][j]).length);
       }
     }
 
@@ -108,7 +115,7 @@ define([], function() {
       var numStrs = [];
       for (var j = 0; j < this.rows[i].length; ++j) {
         // Add to the string
-        var n = this.rows[i][j].toString();
+        var n = toString(this.rows[i][j]);
         var s = '';
         // Left pad
         for (var k = n.length; k < maxLen; ++k) s += ' ';
