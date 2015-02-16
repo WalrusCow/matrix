@@ -68,7 +68,8 @@ define([], function() {
     this.rows[n][n] = 1;
 
     // Create zeros in lower rows
-    for (var i = n + 1; i < this.rows.length; ++i) {
+    for (var i = 0; i < this.rows.length; ++i) {
+      if (i == n) continue;
       // Already have a zero here
       if (this.rows[i][n] === 0) continue;
       var mult = this.rows[i][n];// / this.rows[n][n];
