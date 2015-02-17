@@ -36,6 +36,13 @@ define([], function() {
       // Unable to create a 1 in this column
       if (!this.reduceColumn(i)) return false;
     }
+
+    var ans = [];
+    for (var i = 0; i < this.rows.length; ++i) {
+      // Put the answer into the correct return slot
+      ans[this.rowMap[i]] = this.rows[i].pop();
+    }
+    return ans;
   };
 
   Matrix.prototype.reduceColumn = function(n) {
